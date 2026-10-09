@@ -1,0 +1,568 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Preguntas</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7fc;
+            display: flex; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eef3ff;
+            border-left: 5px solid #4a90e2;
+        }
+        .question label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            font-size: 17px; font-weight: normal;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid #d1d8e0;
+            margin-bottom: 8px;
+            transition: background-color 0.3s;
+            width: calc(100% - 20px); max-width: 100%;
+        }
+        .option:hover {
+            background-color: #d9e8ff;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            border-color: #4caf50;
+            font-weight: bold;
+        }
+        .incorrect {
+            background-color: #ffcdd2 !important;
+            border-color: #e53935;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="quizForm"></form>
+    </div>
+    
+    <script>
+        const questions = [
+    "question": "1. El tiempo que queda después de realizar las obligaciones personales se denomina:",
+    "options": [
+      "a) Tiempo libre.",
+      "b) Ocio.",
+      "c) Tiempo muerto.",
+      "d) a) y b) son correctas, pues son conceptos sinónimos."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "2. La mayoría de las definiciones de ocio dadas por los diferentes autores coinciden al señalar tres condiciones fundamentales para considerar una actividad como ocio. Señala la incorrecta:",
+    "options": [
+      "a) Autonomía. Libre elección-voluntariedad.",
+      "b) Necesidad de planificación.",
+      "c) Vivencia placentera-satisfacción.",
+      "d) Deseable por sí misma y con carácter final."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "3. Una característica que debe tener el ocio es el autotetilismo. ¿A qué nos referimos con este término?",
+    "options": [
+      "a) La actividad de ocio produce mejoras en la persona.",
+      "b) Una actividad de ocio es deseable simplemente por el gusto de realizarla.",
+      "c) El ocio es una actividad elegida de forma autónoma.",
+      "d) El ocio debe estar planificado por un profesional."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "4. Señala la afirmación correcta sobre la concepción de ocio como consumo cultural:",
+    "options": [
+      "a) Se encuadra en la corriente de democratización de la cultura y la difusión cultural.",
+      "b) Tiene su máxima expresión en la cultura de masas.",
+      "c) Este tipo de ocio ha dado lugar al nacimiento de la industria del ocio cultural.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "5. ¿Qué tipo de ocio se puede considerar el hecho de asistir a un concierto, a una representación teatral, leer, ver la televisión?",
+    "options": [
+      "a) Ocio activo.",
+      "b) Ocio pasivo.",
+      "c) Ocio colectivo.",
+      "d) Ocio social."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "6. En función del ámbito en que se realizan las actividades de ocio, ¿de qué tipo de ocio hablamos cuando asistimos a fiestas o veladas?",
+    "options": [
+      "a) Ocio de Naturaleza.",
+      "b) Ocio de Formación y cultura.",
+      "c) Ocio de Recreación.",
+      "d) Ocio Social."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "7. Según Cuenca las dimensiones del ocio son cinco. Señala la incorrecta:",
+    "options": [
+      "a) Dimensión Lúdica.",
+      "b) Dimensión Económica.",
+      "c) Dimensión Festiva-comunitaria.",
+      "d) Dimensión Solidaria."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "8. Considerada como una manifestación de la identidad cultural y social, la fiesta —en su sentido tradicional y moderno— es concebida como una muestra extraordinaria del ocio compartido, frente a las vivencias más individuales de este. ¿A qué dimensión del ocio nos referimos?",
+    "options": [
+      "a) Dimensión Lúdica.",
+      "b) Dimensión Económica.",
+      "c) Dimensión Festiva-comunitaria.",
+      "d) Dimensión Solidaria."
+    ],
+    "correct": 2
+  {
+    "question": "9. López Andrada y otros autores distinguen cinco niveles de aprovechamiento del ocio, según sean más o menos edificantes para la persona. ¿Cuál de los siguientes niveles supone un menor aprovechamiento?",
+    "options": [
+      "a) Entretenimiento.",
+      "b) Consumo.",
+      "c) Aburrimiento.",
+      "d) Descanso."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "10. López Andrada describe este nivel de aprovechamiento del ocio como aquel estadio en el que el individuo delega sobre las empresas de servicios y las industrias de ocio la entera responsabilidad de organizar entretenimientos para su tiempo libre:",
+    "options": [
+      "a) Entretenimiento.",
+      "b) Consumo.",
+      "c) Aburrimiento.",
+      "d) Descanso."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "11. Es un proceso que dura toda la vida y en el que las personas adquieren y acumulan conocimientos, capacidades y actitudes de las experiencias diarias y del contacto con su medio:",
+    "options": [
+      "a) Educación Formal.",
+      "b) Educación Informal.",
+      "c) Educación No Formal.",
+      "d) Ocio formativo."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "12. Hernández distingue tres elementos del ocio. Señala el incorrecto:",
+    "options": [
+      "a) El tiempo libre.",
+      "b) La satisfacción personal.",
+      "c) El tipo de actividad.",
+      "d) La experiencia vivida."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "13. Entre los objetivos de la Educación para el ocio y tiempo libre se encuentra:",
+    "options": [
+      "a) Fomentar la creatividad.",
+      "b) Despertar aficiones.",
+      "c) Fomentar el respeto a los demás.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "14. Llull Peñalba propone una serie de objetivos generales para la educación para el ocio y el tiempo libre. ¿Cuál no es uno de ellos?",
+    "options": [
+      "a) Ayudar a una mejor organización de los tiempos de la vida de las personas, con el fin de obtener un mayor tiempo personal y una cierta liberación de las obligaciones, compromisos y tensiones de cada día.",
+      "b) Fomentar el empleo del tiempo libre como simple reponedor de fuerzas, tanto físicas como psíquicas.",
+      "c) Fomentar la expresión creativa individual como una forma de recuperar el valor significativo y participativo de la democracia cultural.",
+      "d) Proponer situaciones inusuales y experiencias extraordinarias, que ayuden al descubrimiento personal de capacidades y destrezas, de acuerdo con los principios del aprendizaje significativo y la educación permanente."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "15. Puig y Trilla proponen como principio de una pedagogía del ocio:",
+    "options": [
+      "a) Respetar la autonomía y la libre elección. La pedagogía del ocio ha de ir dirigida a enseñar a crear, no sólo a consumir; ha de generar alternativas para que se pueda elegir, ha de fomentar y no suplir.",
+      "b) Estimular el valor de lo cotidiano, explorando el placer que encierran actividades que se realizan en el tiempo libre, como cuidar su propio espacio, relacionarse con los vecinos, etc.",
+      "c) Compatibilizar el ocio individual con el colectivo para lograr un encuentro satisfactorio con uno mismo y con los demás.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "16. En la realización de las actividades de ocio influyen aspectos del alumno como:",
+    "options": [
+      "a) Problemas físicos relacionados con la movilidad y la ausencia de fuerzas que pueden desencadenar accidentes y caídas.",
+      "b) Nivel de estimulación.",
+      "c) Limitaciones sensoriales.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "17. Una de las líneas metodológicas a seguir para el acompañamiento en actividades de ocio y tiempo libre con alumnos con NEE es:",
+    "options": [
+      "a) Motivar al alumno a ser autónomo y desempeñar por sí mismo aquellas tareas que estén a su alcance.",
+      "b) Dar instrucciones concretas y secuenciadas en aquellas tareas en las que el alumno pueda tener dificultad.",
+      "c) Planificar la rehabilitación de destrezas que aumenten la autonomía.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "18. Las actividades de ocio del niño con NEE serán:",
+    "options": [
+      "a) Completamente planificadas y rígidas.",
+      "b) Flexibles y abiertas.",
+      "c) Para favorecer que los niños especiales jueguen entre ellos.",
+      "d) Las respuestas b) y c) son correctas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "19. A la hora de planificar actividades de ocio con los alumnos con NEE debemos tener en cuenta:",
+    "options": [
+      "a) Ya que estos niños tienen tendencia a aislarse del resto, debemos planificar preferentemente actividades individuales y no en grupo.",
+      "b) Hay que promover la participación y crear un clima motivacional idóneo para la ejecución de las actividades planteadas.",
+      "c) Se debe evitar el contacto entre niños de ambos sexos.",
+      "d) Todas las anteriores."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "20. ¿Qué autor considera la relación del entorno sociocultural como un criterio que favorece el buen aprendizaje?",
+    "options": [
+      "a) Piaget.",
+      "b) Freud.",
+      "c) Decroly.",
+      "d) Ausubel."
+    ],
+    "correct": 2
+  },
+      "question": "21. El juego es una actividad seria porque:",
+    "options": [
+      "a) El niño pone el mismo empeño, concentración y atención jugando que un adulto trabajando.",
+      "b) Solo proporciona diversión cuando el niño juega con un adulto, que sabe cómo entretenerlo.",
+      "c) Cuanto más serio sea el juego, mayor es el aprendizaje que favorece.",
+      "d) El juego no es una actividad seria, sino divertida."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "22. El juego favorece el desarrollo psicomotor, porque:",
+    "options": [
+      "a) Estimula la creatividad.",
+      "b) Favorece la relación con los demás.",
+      "c) Puede descubrir sensaciones nuevas que de otro modo el niño no tendría ocasión de experimentar.",
+      "d) Estimula la agresividad."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "23. El juego promueve la creación de zonas de desarrollo potencial que, como sabemos, es la zona por la que puede moverse el niño para construir aprendizajes significativos. Este caso es un ejemplo de cómo el juego favorece:",
+    "options": [
+      "a) El desarrollo cognitivo.",
+      "b) El desarrollo social.",
+      "c) El desarrollo motor.",
+      "d) El desarrollo afectivo."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "24. En lo que se refiere al desarrollo social:",
+    "options": [
+      "a) El juego facilita el conocimiento y la relación con los demás.",
+      "b) El juego permite el autoconocimiento o conocimiento de sí mismo.",
+      "c) El juego entre iguales favorece la comunicación y cooperación entre ellos.",
+      "d) Las respuestas a), b) y c) son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "25. El juego infantil, durante los cuatro primeros meses, se caracteriza porque:",
+    "options": [
+      "a) Es principalmente espontáneo.",
+      "b) Juega más con los adultos que en solitario.",
+      "c) El interés se centra en los objetos.",
+      "d) Todas las opciones son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "26. Entre los 4 y los 8 meses:",
+    "options": [
+      "a) El niño juega sobre todo en solitario.",
+      "b) Empieza a interesarse por los propios elementos corporales.",
+      "c) Empieza a mostrar interés por la manipulación de objetos.",
+      "d) Las respuestas b) y c) son correctas."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "27. Entre los 8 y los 12 meses:",
+    "options": [
+      "a) El niño muestra una clara preferencia por jugar en solitario.",
+      "b) Sus juegos se centran en la “investigación” de qué efectos producen sus actos.",
+      "c) Se divierten con los juegos de aparecer y desaparecer.",
+      "d) Las respuestas b) y c) son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "28. Al año de edad aproximadamente:",
+    "options": [
+      "a) Cada vez requiere más la presencia del adulto para jugar.",
+      "b) El juego se dirige hacia sí mismo.",
+      "c) Lleva a cabo un juego compartido.",
+      "d) Lleva a cabo un juego en paralelo."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "29. Entre los dos y los tres años aproximadamente:",
+    "options": [
+      "a) Predomina el juego compartido.",
+      "b) Se abandona definitivamente el juego en paralelo.",
+      "c) Aparece el juego simbólico.",
+      "d) Todas las opciones son correctas."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "30. El juego sensoriomotor, descrito por Piaget, se caracteriza por:",
+    "options": [
+      "a) Tener lugar entre los 2 y los 7 años de edad.",
+      "b) La imitación sistemática y la exploración de lo nuevo.",
+      "c) El niño actúa como si fuese otra persona.",
+      "d) La necesidad de que el niño acate unas normas."
+    ],
+    "correct": 1
+  {
+    "question": "31. Los juegos de destrucción, que describe Chateau:",
+    "options": [
+      "a) Se basan en el deseo de autoafirmación del niño.",
+      "b) Se caracterizan por el desorden y el arrebato.",
+      "c) Es un tipo de juego no reglado.",
+      "d) Todas las respuestas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "32. Entre las ventajas del juego espontáneo podemos citar:",
+    "options": [
+      "a) Se trata de juegos muy variados.",
+      "b) Existe un perfecto ajuste a la edad e intereses del niño.",
+      "c) Permite la corrección y eliminación de defectos.",
+      "d) Sus efectos son controlados por el profesor."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "33. Los mejores juguetes para un niño son:",
+    "options": [
+      "a) Los fabricados por empresas de reconocido prestigio por su calidad.",
+      "b) Los más caros.",
+      "c) Los que mejor se adaptan a las características personales de cada niño concreto.",
+      "d) Los que están elaborados artesanalmente."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "34. A la hora de comprar un juguete para un niño de Educación Infantil debemos tener en cuenta, entre otros aspectos:",
+    "options": [
+      "a) Es imprescindible que no contenga piezas pequeñas que puedan producir el ahogamiento del niño.",
+      "b) Cuanto más sofisticado es el juguete, mayor diversión proporciona.",
+      "c) Es conveniente tener siempre un juguete a mano con el que poder premiar la buena conducta de los niños.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "35. No debemos proporcionar a un niño un juguete:",
+    "options": [
+      "a) De una marca desconocida.",
+      "b) Que no cumpla con las medidas de seguridad que establece la Unión Europea.",
+      "c) Que no esté diseñado específicamente para su edad cronológica.",
+      "d) Que ya ha usado anteriormente otro niño."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "36. Una de las pruebas a las que se someten los juguetes para comprobar su seguridad es:",
+    "options": [
+      "a) La resistencia.",
+      "b) La belleza.",
+      "c) El coste económico de producción.",
+      "d) La inflamabilidad."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "37. Siguiendo a Vicente Martínez y Francisco Gregorio, podemos identificar tres condiciones básicas que debe reunir un buen espacio lúdico. Estas condiciones son:",
+    "options": [
+      "a) Seguridad física, seguridad psíquica y libertad e independencia.",
+      "b) Seguridad, amplitud y libertad.",
+      "c) Seguridad física, seguridad mental y seguridad mecánica.",
+      "d) Seguridad física, seguridad emocional y afectiva y amplitud."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "38. Los juguetes dentro del aula:",
+    "options": [
+      "a) Deben situarse en alto, para que sea el profesor el que decida las actividades a realizar.",
+      "b) Deben situarse al alcance de los niños, para favorecer la libertad de elección y de acción.",
+      "c) Deben situarse en alto, pero de modo que sean visibles por los niños, así estimulamos el lenguaje verbal, si necesitan pedirnos lo que desean.",
+      "d) Ninguna de las anteriores."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "39. Podemos estimular al niño para recoger si:",
+    "options": [
+      "a) Los niños de Educación Infantil y con NEE no tienen capacidad para recoger los juguetes.",
+      "b) Ponemos una etiqueta con un código sencillo en el lugar donde se guarda el material.",
+      "c) Los castigamos cada vez que deja un juguete sin recoger.",
+      "d) Lo amenazamos con tirar los juguetes si no recoge."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "40. Es interesante que los contenedores utilizados para guardar los juguetes:",
+    "options": [
+      "a) Sean transparentes, para poder ver lo que hay sin necesidad de abrirlos.",
+      "b) Tengan una abertura que permitan ver el interior.",
+      "c) Se sitúen siempre en alto.",
+      "d) Las respuestas a) y b) son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "41. ¿Cuál de los siguientes juegos requiere un mayor desarrollo mental?",
+    "options": [
+      "a) Juego de ejercicio.",
+      "b) Juego simbólico.",
+      "c) Juego de reglas.",
+      "d) Juegos electrónicos."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "42. Los juegos, según el objetivo de aprendizaje que persigan, pueden ser:",
+    "options": [
+      "a) Colectivos e individuales.",
+      "b) Simbólicos o de reglas.",
+      "c) Motóricos, sensoriales o psicológicos.",
+      "d) De patio o de aula."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "43. Los juegos naturales son aquellos que:",
+    "options": [
+      "a) Se desarrollan en la naturaleza.",
+      "b) Se basan en movimientos que hace el niño normalmente.",
+      "c) Desarrollan mejor los sentidos.",
+      "d) Le permiten conocer el cuerpo humano."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "44. Los juegos sensoriales son aquellos:",
+    "options": [
+      "a) Que ayudan a la educación de los sentidos.",
+      "b) Que reflejan sentimientos del niño.",
+      "c) Que permiten su desarrollo psicomotor.",
+      "d) Más apropiados para los deficientes mentales."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "45. Señala la afirmación correcta sobre el deporte en la educación especial:",
+    "options": [
+      "a) El deporte en la Educación Especial tiene que tener un carácter educativo.",
+      "b) El deporte ha de ser visto como una actividad con carácter integrador.",
+      "c) Es importante tener en cuenta el tipo de discapacidad antes de programar las actividades deportivas.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3	
+         ];
+
+        const form = document.getElementById('quizForm');
+
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+
+            const label = document.createElement('label');
+            label.textContent = q.question;
+            questionDiv.appendChild(label);
+
+            const optionsList = document.createElement('ul');
+            optionsList.classList.add('options');
+
+            q.options.forEach((option, i) => {
+                const optionItem = document.createElement('li');
+                optionItem.classList.add('option');
+
+                const radio = document.createElement('input');
+                optionItem.addEventListener('click', () => radio.click());
+                radio.type = 'radio';
+                radio.name = `question${index}`;
+                radio.value = i;
+                radio.addEventListener('change', () => {
+                    if (i === q.correct) {
+                        optionItem.classList.add('correct');
+                        optionItem.classList.remove('incorrect');
+                    } else {
+                        optionItem.classList.add('incorrect');
+                        optionItem.classList.remove('correct');
+                    }
+                });
+
+                optionItem.appendChild(radio);
+                optionItem.appendChild(document.createTextNode(option));
+                optionsList.appendChild(optionItem);
+            });
+
+            questionDiv.appendChild(optionsList);
+            form.appendChild(questionDiv);
+        });
+    </script>
+</body>
+</html>
