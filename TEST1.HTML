@@ -1,0 +1,524 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Preguntas</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7fc;
+            display: flex; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eef3ff;
+            border-left: 5px solid #4a90e2;
+        }
+        .question label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            font-size: 17px; font-weight: normal;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid #d1d8e0;
+            margin-bottom: 8px;
+            transition: background-color 0.3s;
+            width: calc(100% - 20px); max-width: 100%;
+        }
+        .option:hover {
+            background-color: #d9e8ff;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            border-color: #4caf50;
+            font-weight: bold;
+        }
+        .incorrect {
+            background-color: #ffcdd2 !important;
+            border-color: #e53935;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="quizForm"></form>
+    </div>
+    
+    <script>
+        const questions = [
+
+  {
+    "question": "1. Señala la afirmación correcta sobre la tarea del ATE en el centro educativo:",
+    "options": [
+      "a) Tiene que mantener un contacto con el Tutor del aula, para coordinar las diferentes actividades.",
+      "b) Su papel se relaciona fundamentalmente con la transmisión de contenidos conceptuales.",
+      "c) Su labor es el apoyo al alumnado con discapacidad para fomentar su dependencia.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "2. El papel del ATE-cuidador/a en los centros ordinarios, aulas especializadas y centros de educación especial está regulado, en la Comunidad de Extremadura, en:",
+    "options": [
+      "a) La Instrucción n.º 17/2020.",
+      "b) La Instrucción n.º 14/2016.",
+      "c) La Instrucción n.º 21/2019.",
+      "d) La Instrucción n.º 23/2018."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "3. El Auxiliar Técnico Educativo realiza su labor educativa en los centros educativos públicos extremeños, con el fin de garantizar una educación de calidad. Su labor educativa tiene carácter:",
+    "options": [
+      "a) Docente y no asistencial.",
+      "b) Docente y asistencial.",
+      "c) No docente y no asistencial.",
+      "d) No docente y asistencial."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "4. Según la Instrucción que regula el papel del ATE-cuidador/a en los centros ordinarios, aulas especializadas y centros de educación especial, en la Comunidad de Extremadura, este debe atender al alumnado que durante un periodo de tiempo o durante toda su escolarización presente:",
+    "options": [
+      "a) Graves dificultades en la movilidad y/u orientación espacio-temporal.",
+      "b) Falta total de autonomía y, como consecuencia, necesidad de ser acompañado por un adulto en todos sus desplazamientos en el centro, de tal forma que si el recurso no existe, el alumno o la alumna no puede estar escolarizado.",
+      "c) Necesidad de asistencia en el control de esfínteres sin que pueda realizarlo por sí mismo a causa de su discapacidad.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "5. Señala la afirmación correcta sobre las características del ATE, según se establece en la Instrucción que regula el papel del ATE-cuidador/a en los centros ordinarios, aulas especializadas y centros de educación especial, en la Comunidad de Extremadura:",
+    "options": [
+      "a) El Auxiliar Técnico Educativo es personal docente, dependiente de la Consejería de Educación y Empleo, que se constituye como un recurso permanente de apoyo a los centros educativos.",
+      "b) Su intervención ha de ser gradual, de mayor a menor atención, en función del nivel de autonomía que el alumno vaya adquiriendo, hasta el momento en que los apoyos y ayudas que precise puedan ser asumidos con los recursos ordinarios del centro.",
+      "c) El Auxiliar Técnico Educativo es un recurso unipersonal.",
+      "d) Todas son correctas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "6. Una de las funciones del ATE, según lo establecido en la Instrucción que regula el papel del ATE-cuidador/a en los centros ordinarios, aulas especializadas y centros de educación especial, en la Comunidad de Extremadura, es:",
+    "options": [
+      "a) Llevar a cabo funciones en relación con las tareas de su vida diaria que no tengan carácter sanitario y que no pueda realizar por sí mismo a causa de su discapacidad.",
+      "b) Acompañar a los beneficiarios en salidas, rutas escolares, paseos, gestiones, juegos y tiempo libre en general.",
+      "c) Realizar los cambios posturales preventivos que le son encomendados.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "7. El responsable de organizar el horario del ATE-cuidador/a, de manera que desarrolle en su totalidad las funciones que le sean encomendadas dentro de su jornada laboral, es:",
+    "options": [
+      "a) El orientador del centro.",
+      "b) El equipo directivo.",
+      "c) La jefatura de estudios.",
+      "d) El propio ATE-cuidador/a, en función de las necesidades cambiantes del alumnado al que atiende."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "8. La proporción ATE-cuidador/alumno queda establecida en:",
+    "options": [
+      "a) 1/6.",
+      "b) 1/4.",
+      "c) 2/6.",
+      "d) 2/10."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "9. En los centros educativos ordinarios el número de Auxiliares Técnicos Educativos, con carácter general, será como máximo de:",
+    "options": [
+      "a) 1.",
+      "b) 2.",
+      "c) 3.",
+      "d) 4."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "10. La revisión de necesidades de Auxiliar Técnico Educativo será realizada por los servicios de orientación, tras la valoración de necesidades que presente el alumnado. La dotación de este recurso debe formalizarse por escrito, a través de un informe y valorarse con periodicidad:",
+    "options": [
+      "a) Trimestral.",
+      "b) Semestral.",
+      "c) Anual.",
+      "d) Trienal."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "11. Para el buen funcionamiento del aula de educación especial se necesita:",
+    "options": [
+      "a) Que el Centro disponga de internado.",
+      "b) Que el Profesor-Tutor sea Licenciado en Psicología.",
+      "c) Que exista una coordinación entre los diferentes profesionales del Centro (Educadores, Profesores, Ayudantes Técnicos Educativos, etc.).",
+      "d) Que el Centro esté situado al lado de otros Centros educativos."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "12. Todas las siguientes son funciones del ATE, excepto:",
+    "options": [
+      "a) Colaborar en las salidas, excursiones o fiestas, programadas en la PGA que afecten a los alumnos con NEE.",
+      "b) Colaborar en el desarrollo de los programas de autonomía social, vinculados a hábitos de conducta y comunicativos del alumno con NEE en períodos de recreo, comedor, etc.",
+      "c) Evaluación de la evolución del alumno en las áreas de su competencia.",
+      "d) Atención, vigilancia y cuidado de estos alumnos en los períodos de recreo y descanso, procurando una adecuada relación con el resto."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "13. ¿Cuál de las siguientes opciones, en relación con el perfil profesional del ATE, no es correcta?",
+    "options": [
+      "a) El Auxiliar Técnico Educativo pertenece a la categoría de trabajador docente.",
+      "b) Sus funciones se centrarán en la atención a las necesidades educativas especiales de alumnos determinados a los que se les ha dictaminado oficialmente como alumnos de NEE.",
+      "c) El ATE aporta técnicas específicas de tratamiento del alumno con NEE.",
+      "d) El ATE contribuye al desarrollo personal y curricular del alumno."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "14. En la formación del ATE, ¿cuál de las siguientes opciones no se considera prioritaria?",
+    "options": [
+      "a) Conocimiento del niño.",
+      "b) Conocimientos sobre organización escolar.",
+      "c) Conocimientos pedagógicos.",
+      "d) Conocimientos sobre NEE."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "15. Todas las siguientes son actuaciones de los equipos educativos, excepto:",
+    "options": [
+      "a) La evaluación del proceso de E-A y del funcionamiento del propio equipo.",
+      "b) La programación curricular y las adaptaciones curriculares.",
+      "c) La realización de actividades conjuntas y actuaciones a nivel de centro.",
+      "d) Todas lo son."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "16. Las funciones del técnico auxiliar en relación con el equipo de tutores son todas las siguientes menos una. ¿Sabes cuál?",
+    "options": [
+      "a) Atender y cuidar, junto con el resto de profesores del centro, a los alumnos en los períodos de recreo y otras actividades no lectivas.",
+      "b) Facilitar la integración de los alumnos en el grupo y fomentar su participación en las actividades del centro.",
+      "c) Detectar necesidades educativas complementarias o de adaptación curricular que se evidencien como consecuencia de la evaluación.",
+      "d) Organizar junto con el tutor, ambiente educativo, vigilando las condiciones higiénicas, sanitarias y de seguridad."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "17. De las siguientes funciones del ATE en relación con el equipo de tutores, ¿cuál es falsa?",
+    "options": [
+      "a) Participar en el desarrollo del Plan de Acción tutorial y las actividades de orientación, bajo la colaboración del equipo de orientación educativa y psicopedagógica.",
+      "b) Atender las demandas de actuación de los niños y las indicaciones del tutor.",
+      "c) Atender a las familias en los intercambios de información.",
+      "d) Facilitar la cooperación educativa entre maestros y padres de alumnos."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "18. ¿Cuál de las siguientes afirmaciones en relación con el claustro de profesores es incorrecta?",
+    "options": [
+      "a) El Claustro de profesores es el órgano propio de participación de los profesores en el gobierno del centro y tiene la responsabilidad de planificar, coordinar, informar y, en su caso, decidir sobre todos los aspectos educativos del centro.",
+      "b) Está compuesto por la totalidad de los profesores y educadores que prestan servicios en el centro.",
+      "c) Está presidido por el director del centro.",
+      "d) La asistencia al claustro no es obligatoria si se asiste al menos a los trimestrales."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "19. Las funciones específicas del ATE en el claustro de profesores son todas las siguientes, excepto:",
+    "options": [
+      "a) Emisión del voto en las decisiones tomadas en el seno del claustro.",
+      "b) Participación en la toma de decisiones educativas que se tomen en seno del claustro.",
+      "c) Planificación de los distintos elementos del proceso de enseñanza-aprendizaje.",
+      "d) Participar en la evaluación de programas y actividades de educación y atención a las NEE."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "20. A continuación se citan técnicas que utiliza el fisioterapeuta y en qué consisten. Uno de los emparejamientos es falso. Señálelo:",
+    "options": [
+      "a) Cinesiterapia: uso de dispositivos mecánicos que posibilitan y favorecen determinados movimientos.",
+      "b) Termoterapia: uso del calor con fines terapéuticos.",
+      "c) Electroterapia: electroestimulación.",
+      "d) Talasoterapia: uso del agua marina con fines medicinales."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "21. En las familias con orientación abierta:",
+    "options": [
+      "a) Las diferencias son bien recibidas y aceptadas como un medio de elevar y enriquecer todo el sistema familiar.",
+      "b) Las diferencias de comportamiento y de pensamiento pueden resultar muy amenazantes para los otros miembros.",
+      "c) Cualquier interrupción desorganiza el sistema familiar.",
+      "d) Los hechos impredecibles son ignorados o rechazados."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "22. El nacimiento de un hijo con discapacidad afectará más a una familia:",
+    "options": [
+      "a) Con orientación abierta.",
+      "b) Con orientación cerrada.",
+      "c) Afecta por igual a ambos tipos de familia.",
+      "d) Cuando la familia tiene una orientación cerrada o abierta no le afecta el nacimiento de un hijo con discapacidad."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "23. Entre las principales características generales derivadas del impacto al tener un hijo con dificultades se puede citar:",
+    "options": [
+      "a) Un impacto psicológico-emocional, que da lugar a múltiples reacciones en los padres: rechazo, incredulidad, culpa, vergüenza, depresión, deseos de muerte, etc.",
+      "b) Cambios en la vida y acontecimientos diarios de la familia y en su propio funcionamiento e integración, tales como: alteraciones en los ritmos de sueño, reajustes económicos, cambios en las relaciones entre los padres y los otros hijos, necesidad de continuas visitas a especialistas y otros servicios, etc.",
+      "c) Cambios en las relaciones de la pareja, en las relaciones sociales, en las actitudes con la gente.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "24. Las reacciones de la familia ante la llegada de un hijo con discapacidad va a depender, entre otros factores, de:",
+    "options": [
+      "a) El tipo y grado de problema que presente el niño.",
+      "b) Si es apreciable a simple vista o no.",
+      "c) El significado social de la etiqueta que corresponda al hijo.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "25. Entre las necesidades de los padres tras haber tenido un hijo con discapacidad podemos destacar:",
+    "options": [
+      "a) Necesidad de libertad.",
+      "b) Necesidades económicas.",
+      "c) Necesidad de comprensión y apoyo racional y emocional.",
+      "d) Necesidad de no tener más hijos."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "26. La necesidad de información que plantean los padres de un niño con discapacidad se ve satisfecha:",
+    "options": [
+      "a) A través de artículos, panfletos, folletos que proporcionen variada información.",
+      "b) A través de otros padres más experimentados en su misma situación.",
+      "c) Directamente a través de profesionales.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "27. En relación al proceso de enseñanza-aprendizaje los padres de los niños con discapacidad:",
+    "options": [
+      "a) Deben mantenerse al margen y dejar que los profesionales hagan su trabajo.",
+      "b) A medida que aumenta el número de profesionales involucrados con el niño, la participación de los padres en el proceso educativo tiende a aumentar.",
+      "c) Deben trabajar en equipo con los profesionales de manera que puedan observar si se logran los objetivos.",
+      "d) Deben llevar todo el peso del proceso, pues estos niños no se pueden escolarizar."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "28. Durante los primeros años de vida del niño el agente educativo más importante es:",
+    "options": [
+      "a) La familia.",
+      "b) El centro escolar.",
+      "c) Los iguales.",
+      "d) Los profesionales que le atienden en su discapacidad."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "29. La familia puede ser considerada una institución que:",
+    "options": [
+      "a) Se configura como un espacio de ayuda y supervivencia de las personas que la componen.",
+      "b) Intenta que los elementos esenciales de su familia no se reproduzcan cuando los miembros más jóvenes se independicen, sino que sean estos mismos quienes busquen sus propios elementos definitorios.",
+      "c) Lucha por que todos los modelos sociales y culturales se cambien de una generación a otra.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "30. Cuando los padres tienen bajas expectativas respecto a sus hijos:",
+    "options": [
+      "a) Estos tendrán mayores expectativas de logro en sus aprendizajes.",
+      "b) Estos tendrán también bajas expectativas de logro en sus aprendizajes.",
+      "c) Estos piensan que los logros obtenidos se deben a la propia capacidad y no a la suerte.",
+      "d) Las opciones b y c son correctas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "31. La sobreprotección afecta a los hijos con discapacidad:",
+    "options": [
+      "a) Positivamente, pues así le evitamos muchos problemas.",
+      "b) Negativamente, pues nunca intentará realizar las tareas.",
+      "c) Negativamente, pues aunque intente realizar las tareas si no lo logra se frustra y abandona.",
+      "d) Positivamente, pues le da mayor autonomía."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "32. Los niños llegarán a la escuela con carencias para enfrentar las exigencias de aprendizaje si los padres:",
+    "options": [
+      "a) Son demasiado exigentes y rígidos.",
+      "b) No muestran actitudes sobreprotectoras.",
+      "c) Ponen reglas claras y precisas.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "33. El conjunto de aspectos que conforman la manera de aprender de un alumno se denomina:",
+    "options": [
+      "a) Motivación.",
+      "b) Estilo de aprendizaje.",
+      "c) Destrezas escolares.",
+      "d) Rendimiento académico."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "34. Para poder llevar a cabo una verdadera acción preventiva, las necesidades especiales de los niños con discapacidad deben detectarse:",
+    "options": [
+      "a) Cuanto antes, en el seno de la familia.",
+      "b) En el primer curso de educación primaria.",
+      "c) Durante el primer ciclo de la educación primaria.",
+      "d) En el segundo ciclo de la educación primaria."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "35. En cuanto a la relación entre centro educativo y familia es cierta la siguiente afirmación:",
+    "options": [
+      "a) Las familias se perciben con los mismos derechos y potencialidades, y con una experiencia equivalente a la de los profesionales.",
+      "b) Aunque las familias pueden colaborar, la responsabilidad es exclusivamente de los profesionales.",
+      "c) Las familias contribuyen como receptoras de servicios, pero no como proveedoras.",
+      "d) Las opciones b y c son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "36. La relación entre familia y escuela:",
+    "options": [
+      "a) Se ve por parte de los profesionales como una intromisión en sus funciones.",
+      "b) Se ve por parte de los padres como una intromisión de los profesores en su labor educativa.",
+      "c) Ha de ser de colaboración.",
+      "d) Debe limitarse a la información sobre los resultados académicos."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "37. Entre las habilidades y actitudes que debe presentar el profesional para la relación con las familias que tienen hijos con discapacidad podemos citar:",
+    "options": [
+      "a) Mantener una actitud de respeto, sinceridad y honradez.",
+      "b) Enfatizar los rasgos positivos de las familias en general y de los sujetos con discapacidad en particular.",
+      "c) Admitir que no se sabe todo.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "38. Entre los objetivos o finalidades de la colaboración entre padres y educadores podemos citar:",
+    "options": [
+      "a) Guardarse la información que cada parte tiene sobre el niño para que así se puedan descubrir nuevas formas de enfrentarse al problema.",
+      "b) Dejar las actividades de socialización para las familias.",
+      "c) Trabajar en común sobre aspectos tales como autocuidado, independencia, comunicación.",
+      "d) Todas son correctas."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "39. Uno de los principales campos de colaboración entre padres y educadores es:",
+    "options": [
+      "a) Dar y recibir información.",
+      "b) Dar y recibir formación.",
+      "c) Colaborar mutuamente en programas y actividades relacionados con la labor educativa que se está haciendo con el niño.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "40. Para que una entrevista entre padres y educadores tenga éxito:",
+    "options": [
+      "a) No debe existir un guion por escrito para transmitir los contenidos.",
+      "b) Debemos limitarnos a informar sobre lo negativo, pues es lo que requiere solución y así no prolongamos la entrevista innecesariamente.",
+      "c) Debemos situarnos en un lugar físico favorable y sin barreras entre el entrevistador y entrevistado.",
+      "d) Debemos mantenernos en un plano de superioridad o experto, en caso contrario no harían caso de nuestras recomendaciones."
+    ],
+    "correct": 2
+  }
+         ];
+
+        const form = document.getElementById('quizForm');
+
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+
+            const label = document.createElement('label');
+            label.textContent = q.question;
+            questionDiv.appendChild(label);
+
+            const optionsList = document.createElement('ul');
+            optionsList.classList.add('options');
+
+            q.options.forEach((option, i) => {
+                const optionItem = document.createElement('li');
+                optionItem.classList.add('option');
+
+                const radio = document.createElement('input');
+                optionItem.addEventListener('click', () => radio.click());
+                radio.type = 'radio';
+                radio.name = `question${index}`;
+                radio.value = i;
+                radio.addEventListener('change', () => {
+                    if (i === q.correct) {
+                        optionItem.classList.add('correct');
+                        optionItem.classList.remove('incorrect');
+                    } else {
+                        optionItem.classList.add('incorrect');
+                        optionItem.classList.remove('correct');
+                    }
+                });
+
+                optionItem.appendChild(radio);
+                optionItem.appendChild(document.createTextNode(option));
+                optionsList.appendChild(optionItem);
+            });
+
+            questionDiv.appendChild(optionsList);
+            form.appendChild(questionDiv);
+        });
+    </script>
+</body>
+</html>
