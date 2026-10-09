@@ -1,0 +1,323 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Preguntas</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7fc;
+            display: flex; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eef3ff;
+            border-left: 5px solid #4a90e2;
+        }
+        .question label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            font-size: 17px; font-weight: normal;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid #d1d8e0;
+            margin-bottom: 8px;
+            transition: background-color 0.3s;
+            width: calc(100% - 20px); max-width: 100%;
+        }
+        .option:hover {
+            background-color: #d9e8ff;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            border-color: #4caf50;
+            font-weight: bold;
+        }
+        .incorrect {
+            background-color: #ffcdd2 !important;
+            border-color: #e53935;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="quizForm"></form>
+    </div>
+    
+    <script>
+        const questions = [
+		  {
+    "question": "1. Para suscitar el interés del sujeto durante el proceso educativo el ATE debe:",
+    "options": [
+      "a) Partir de las necesidades del niño.",
+      "b) Partir de los procesos más complejos.",
+      "c) Partir de los procesos más sencillos.",
+      "d) Ninguna es correcta."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "2. Para que un niño pueda llegar a integrarse adecuadamente en la sociedad, el Ayudante Técnico Educativo deberá atender necesidades:",
+    "options": [
+      "a) De individualización.",
+      "b) De socialización.",
+      "c) De salud.",
+      "d) a) y b) son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "3. Una de las claves para la consecución de la autonomía personal es:",
+    "options": [
+      "a) Hacer todo lo que el niño no sea capaz de hacer por sí mismo, sin permitir que lo intente.",
+      "b) Dejar que el niño realice él solo todas las actividades de la vida diaria desde los tres años de edad.",
+      "c) Conseguir que el niño tenga confianza en sí mismo.",
+      "d) No entrenarlo en ningún aspecto. Cuando tenga la madurez necesaria ya adquirirá él solo la autonomía."
+    ],
+    "correct": 2
+  },
+  {
+         "question": "4. En la integración social del alumno con discapacidad es básica la labor del Ayudante Técnico Educativo. Para ello deberá evitar:",
+    "options": [
+      "a) La participación.",
+      "b) La comunicación.",
+      "c) La competitividad.",
+      "d) Refuerzos positivos o premios."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "5. La definición de la conducta socialmente habilidosa expresada como un conjunto de conductas emitidas por un individuo en un contexto interpersonal que expresa los sentimientos, actitudes, deseos, opiniones o derechos de ese individuo de un modo adecuado a la situación, respetando esas conductas en los demás, y que generalmente resuelve esos problemas inmediatos de la situación mientras minimiza la probabilidad de futuros problemas, se la debemos a:",
+    "options": [
+      "a) Pelechano.",
+      "b) García-Sáiz.",
+      "c) Caballo.",
+      "d) Monjas."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "6. Podríamos decir que los tres elementos clave presentes en la mayoría de definiciones de habilidades sociales son:",
+    "options": [
+      "a) Contexto intrapersonal, emocional y situacional.",
+      "b) Conductas de los individuos, contexto interpersonal y respuesta a una situación determinada.",
+      "c) Destrezas sociales, asertividad y factores cognitivos.",
+      "d) Respuestas autoeficaces, aprendidas y reforzadoras."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "7. Señala la respuesta incorrecta. Los componentes de una conducta socialmente competente son:",
+    "options": [
+      "a) Aprendizaje.",
+      "b) Carácter situacional.",
+      "c) Consenso social.",
+      "d) Efectividad."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "8. Las habilidades sociales son un conjunto de comportamientos:",
+    "options": [
+      "a) Innatos.",
+      "b) Aprendidos.",
+      "c) Heredados.",
+      "d) Naturales."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "9. ¿Qué es lo que hace que una conducta pueda ser considerada como adecuada por un grupo de personas y no por otro?",
+    "options": [
+      "a) Las normas.",
+      "b) El carácter situacional.",
+      "c) El consenso social.",
+      "d) La efectividad."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "10. Indica cuál de las siguientes es una habilidad social básica:",
+    "options": [
+      "a) Dar las gracias.",
+      "b) Pedir ayuda.",
+      "c) Afrontar críticas.",
+      "d) Saber formular una queja."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "11. Según Monjas, las relaciones sociales cumplen, entre otras, las siguientes funciones:",
+    "options": [
+      "a) Solucionar y afrontar los problemas que se plantean.",
+      "b) Mejora de la felicidad, la salud mental y la salud física.",
+      "c) Mejoría de la autoestima, obteniendo una felicidad y tranquilidad por parte del sujeto.",
+      "d) Autocontrol y autorregulación de la propia conducta en función del feedback que se recibe de los otros."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "12. Una de las características determinantes de la diversidad funcional es:",
+    "options": [
+      "a) El déficit en habilidades sociales.",
+      "b) La falta de empatía.",
+      "c) La limitación de esfuerzo personal.",
+      "d) La incapacidad para el logro."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "13. Indica cuáles de los siguientes elementos son lo más importante en los componentes cognitivos, que se puede aprender con una relativa facilidad y son muy controlables por el individuo:",
+    "options": [
+      "a) Los sistemas y planes de autorregulación.",
+      "b) Las expectativas.",
+      "c) Las competencias.",
+      "d) Las percepciones."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "14. Existen tres principales tipos de elementos constitutivos de las habilidades sociales. Señala el que no corresponda:",
+    "options": [
+      "a) Conductuales.",
+      "b) Familiares.",
+      "c) Cognitivos.",
+      "d) Fisiológicos."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "15. La discapacidad intelectual se caracteriza por las limitaciones significativas tanto en el funcionamiento intelectual como en:",
+    "options": [
+      "a) Las capacidades conductuales.",
+      "b) La conducta adaptativa.",
+      "c) El planeamiento futuro.",
+      "d) Las relaciones familiares."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "16. ¿Qué característica de las habilidades sociales beneficia a las personas con diversidad funcional para el desarrollo de esta capacidad?",
+    "options": [
+      "a) Que es innata.",
+      "b) Que es funcional.",
+      "c) Que es aprendida.",
+      "d) Que es personal."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "17. La competencia social en la infancia y la adaptación al entorno sociocomunitario se relaciona directamente con:",
+    "options": [
+      "a) La relación con los iguales.",
+      "b) La capacidad intelectual.",
+      "c) El apoyo familiar.",
+      "d) Las redes sociofamiliares."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "18. La incompetencia social se relaciona con (señala lo incorrecto):",
+    "options": [
+      "a) Baja aceptación, rechazo, ignorancia o aislamiento social por parte de los iguales.",
+      "b) Problemas personales: baja autoestima y locus de control interno.",
+      "c) Problemas escolares: bajos niveles de rendimiento, fracaso, absentismo, abandono del sistema escolar, expulsiones de la escuela, inadaptación escolar.",
+      "d) Todas son correctas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "19. Uno de los métodos para favorecer la inclusión es:",
+    "options": [
+      "a) Favorecer el respeto por la diferencia.",
+      "b) Favorecer un ambiente y convivencia saludable en el aula.",
+      "c) Fomentar la autoconfianza de los alumnos.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "20. El Ayudante Técnico Educativo ha de establecer una serie de pautas para favorecer la comunicación entre los alumnos. Entre ellas podemos citar:",
+    "options": [
+      "a) Habrá de colaborar con el resto de profesionales, especialmente con el Profesor-Tutor, en aquellas tareas que le sean encomendadas.",
+      "b) Evitará cualquier tipo de barrera que impida al niño con dificultades el logro de objetivos planteados.",
+      "c) Mantendrá un diálogo con las familias del alumnado con NEE para tratar de unificar criterios a la hora de conseguir ciertas habilidades y destrezas.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  }
+         ];
+
+        const form = document.getElementById('quizForm');
+
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+
+            const label = document.createElement('label');
+            label.textContent = q.question;
+            questionDiv.appendChild(label);
+
+            const optionsList = document.createElement('ul');
+            optionsList.classList.add('options');
+
+            q.options.forEach((option, i) => {
+                const optionItem = document.createElement('li');
+                optionItem.classList.add('option');
+
+                const radio = document.createElement('input');
+                optionItem.addEventListener('click', () => radio.click());
+                radio.type = 'radio';
+                radio.name = `question${index}`;
+                radio.value = i;
+                radio.addEventListener('change', () => {
+                    if (i === q.correct) {
+                        optionItem.classList.add('correct');
+                        optionItem.classList.remove('incorrect');
+                    } else {
+                        optionItem.classList.add('incorrect');
+                        optionItem.classList.remove('correct');
+                    }
+                });
+
+                optionItem.appendChild(radio);
+                optionItem.appendChild(document.createTextNode(option));
+                optionsList.appendChild(optionItem);
+            });
+
+            questionDiv.appendChild(optionsList);
+            form.appendChild(questionDiv);
+        });
+    </script>
+</body>
+</html>
