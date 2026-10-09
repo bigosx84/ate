@@ -1,0 +1,323 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Preguntas</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7fc;
+            display: flex; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eef3ff;
+            border-left: 5px solid #4a90e2;
+        }
+        .question label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            font-size: 17px; font-weight: normal;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid #d1d8e0;
+            margin-bottom: 8px;
+            transition: background-color 0.3s;
+            width: calc(100% - 20px); max-width: 100%;
+        }
+        .option:hover {
+            background-color: #d9e8ff;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            border-color: #4caf50;
+            font-weight: bold;
+        }
+        .incorrect {
+            background-color: #ffcdd2 !important;
+            border-color: #e53935;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="quizForm"></form>
+    </div>
+    
+    <script>
+        const questions = [
+      {
+    "question": "1. El concepto de “Necesidad específica de apoyo educativo”:",
+    "options": [
+      "a) Solamente se refiere a personas que presenten dificultades y limitaciones en el ámbito educativo.",
+      "b) Engloba al alumnado que requiere una atención educativa diferente a la ordinaria, por presentar necesidades educativas especiales, por retraso madurativo, por trastornos del desarrollo del lenguaje y la comunicación, por trastornos de atención o de aprendizaje, por desconocimiento grave de la lengua de aprendizaje, por encontrarse en situación de vulnerabilidad socioeducativa, por sus altas capacidades intelectuales, por haberse incorporado tarde al sistema educativo o por condiciones personales o de historia escolar, por sus altas capacidades intelectuales, por haberse incorporado tarde al sistema educativo, o por condiciones personales o de historia escolar.",
+      "c) Se relaciona unívocamente a un determinado grupo de alumnos (con dificultades físicas).",
+      "d) Todas las respuestas anteriores son incorrectas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "2. ¿De qué año es la Ley de Educación de Extremadura?",
+    "options": [
+      "a) 2010.",
+      "b) 2011.",
+      "c) 2012.",
+      "d) 2013."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "3. Se considera que un alumno tiene Necesidad específica de apoyo educativo si:",
+    "options": [
+      "a) Tiene dificultades de aprendizaje leves.",
+      "b) Requiere, de manera temporal o permanente, una respuesta específica y diferenciada para alcanzar los objetivos establecidos con carácter general.",
+      "c) Requiere de adaptaciones de acceso y curriculares significativas en más de cuatro áreas.",
+      "d) Todas las anteriores."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "4. Se entiende por alumnado que presenta necesidades educativas especiales:",
+    "options": [
+      "a) Aquel que requiera, determinados apoyos y atenciones educativas específicas únicamente durante un periodo determinado de su escolarización.",
+      "b) Aquel que requiera, por un periodo de su escolarización o a lo largo de toda ella, determinados apoyos y atenciones educativas específicas en ausencia de discapacidad.",
+      "c) Aquel que afronta barreras que limitan su acceso, presencia, participación o aprendizaje, derivadas de discapacidad o de trastornos graves de conducta, de la comunicación y del lenguaje, por un periodo de su escolarización o a lo largo de toda ella, y que requiere determinados apoyos y atenciones educativas específicas para la consecución de los objetivos de aprendizaje adecuados a su desarrollo.",
+      "d) Aquel que requiera, por un periodo de su escolarización o a lo largo de toda ella, ser escolarizado en centros específicos de educación especial."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "5. Entre el alumnado con necesidad específica de apoyo educativo no se incluye:",
+    "options": [
+      "a) Alumnado con discapacidad o trastornos graves de conducta.",
+      "b) Alumnado con altas capacidades intelectuales.",
+      "c) Alumnado con dificultades específicas de aprendizaje.",
+      "d) Todos se incluyen entre el alumnado con necesidad específica de apoyo educativo."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "6. ¿En qué capítulo de la Ley de Educación de Extremadura se desarrollan los distintos aspectos referidos al alumnado con necesidad específica de apoyo educativo?",
+    "options": [
+      "a) Capítulo I.",
+      "b) Capítulo II.",
+      "c) Capítulo III.",
+      "d) Capítulo IV."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "7. La llamada “tercera revolución mental” se produjo:",
+    "options": [
+      "a) A partir de la década de los sesenta.",
+      "b) A partir de la década de los setenta.",
+      "c) A partir de la década de los ochenta.",
+      "d) A partir de la década de los noventa."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "8. El principio de normalización fue aportado por:",
+    "options": [
+      "a) Dunn.",
+      "b) Birch.",
+      "c) Hank Mikkelsen.",
+      "d) Hergarty."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "9. Según Hergarty, ¿cuántos niveles diferentes de oferta educativa para alumnos con Necesidades Educativas Especiales se pueden establecer?",
+    "options": [
+      "a) 5.",
+      "b) 6.",
+      "c) 7.",
+      "d) 8."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "10. Señale la afirmación correcta sobre el principio de integración educativa:",
+    "options": [
+      "a) El principio de integración se plantea por primera vez en el ámbito escolar, concretamente en el informe Warnock.",
+      "b) Con el concepto de integración se pone en evidencia la necesidad de aproximarse al entorno del alumno (con adaptaciones curriculares en el aula o en el puesto de trabajo, medidas excepcionales en el caso de la discriminación positiva, etc.).",
+      "c) El objetivo de la integración es facilitar el incremento del nivel de calidad de vida de las personas que puedan encontrarse en situación de desventaja.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "11. ¿Cuándo se empieza a utilizar el término de inclusión educativa?",
+    "options": [
+      "a) En 1994, tras la Conferencia Mundial sobre Necesidades Educativas Especiales celebrada por la UNESCO en Salamanca.",
+      "b) En el año 2005, en el informe Warnock sobre la situación de la educación en el ámbito de la comunidad europea.",
+      "c) En el artículo 49 de la Constitución española.",
+      "d) En la Ley Orgánica 2/2006, de 3 de mayo, de Educación."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "12. Los objetivos en relación a la atención al alumnado con necesidades específicas de apoyo educativo, según el Plan Marco de Atención a la Diversidad en Extremadura, son los siguientes, excepto:",
+    "options": [
+      "a) Asegurar una atención educativa de calidad para el alumnado extremeño que presente necesidades específicas de apoyo educativo.",
+      "b) Regular los aspectos básicos relativos a recursos personales y materiales necesarios.",
+      "c) Poner los medios necesarios para identificar las dificultades y necesidades educativas específicas del alumnado durante los tres primeros cursos de educación primaria.",
+      "d) Garantizar la igualdad de oportunidades al alumnado con necesidad específica de apoyo educativo en el acceso y permanencia a las enseñanzas obligatorias y no obligatorias, así como a la integración en todos los aspectos de la vida académica y del mundo laboral."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "13. La escolarización del alumnado que presenta necesidades educativas especiales:",
+    "options": [
+      "a) Se regirá por los principios de normalización e inclusión.",
+      "b) Se realizará exclusivamente en unidades o centros de educación especial.",
+      "c) Podrá extenderse hasta los treinta años.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "14. Ley de Educación de Extremadura (LEEx) en su artículo 26, especifica que la escolarización del alumnado con necesidades educativas especiales se llevará a cabo preferentemente:",
+    "options": [
+      "a) En centros específicos de educación especial.",
+      "b) En centros ordinarios.",
+      "c) En centros ordinarios, siempre que el alumno no presente discapacidad intelectual y en centros de educación especial, en el caso de que el alumno tenga discapacidad intelectual.",
+      "d) Ninguna de las anteriores es correcta."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "15. “La identificación y valoración de las necesidades educativas de este alumnado se realizará, lo más tempranamente posible, por personal con la debida cualificación y en los términos que determinen las Administraciones educativas”. ¿En qué artículo de la LOE se especifica cómo será la escolarización del alumnado que presenta necesidades educativas especiales?",
+    "options": [
+      "a) Artículo 70.",
+      "b) Artículo 72.",
+      "c) Artículo 74.",
+      "d) Artículo 96."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "16. Según el Decreto 228/2014, de 14 de octubre, por el que se regula la respuesta educativa a la diversidad del alumnado en la Comunidad Autónoma de Extremadura, se consideran dificultades específicas de aprendizaje las derivadas de:",
+    "options": [
+      "a) Inteligencia límite.",
+      "b) Dislexia.",
+      "c) Trastorno del aprendizaje no verbal (TANV).",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "17. Indique cuál de las siguientes no es una de las medidas de compensación educativa, contempladas en el Decreto 228/2014, de 14 de octubre destinadas al alumnado con necesidades específicas de apoyo educativo por condiciones personales o de historia escolar:",
+    "options": [
+      "a) Planes y programas dirigidos a la prevención, control y seguimiento del absentismo escolar.",
+      "b) Planes de apoyo a la promoción de una vida sana a través de una dieta adecuada y actividades físico-deportivas.",
+      "c) Atención educativa específica destinada al alumnado sometido a medidas judiciales de reforma y/o a medidas de protección y tutela.",
+      "d) Actuaciones dirigidas al alumnado de familias dedicadas a trabajos temporeros e itinerantes."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "18. Señale la afirmación correcta sobre la evaluación psicopedagógica:",
+    "options": [
+      "a) El profesional responsable de realizar la evaluación psicopedagógica, coordinar todo el proceso y emitir el correspondiente informe psicopedagógico, será el tutor del alumno.",
+      "b) De la conveniencia de realizar un proceso de evaluación psicopedagógica deberá informarse a los padres o tutores legales del alumno, aunque no es necesaria su autorización expresa por escrito para su realización.",
+      "c) Cuando, como resultado de la evaluación psicopedagógica, se estime necesario adoptar decisiones que conlleven una modalidad de escolarización distinta a la ordinaria, será necesaria la formalización de un dictamen de escolarización y la consiguiente resolución.",
+      "d) Todas son correctas."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "19. La emisión del dictamen de escolarización corresponderá a:",
+    "options": [
+      "a) Los servicios de orientación educativa de la Consejería con competencias en materia de educación.",
+      "b) La dirección del centro educativo.",
+      "c) El comité de escolarización dependiente del consejo escolar.",
+      "d) El consejo escolar."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "20. La escolarización del alumnado con necesidades específicas asociadas a condiciones personales o de historia escolar se realizará con carácter general en la siguiente modalidad:",
+    "options": [
+      "a) Escolarización en centro ordinario.",
+      "b) Escolarización combinada: centro ordinario y aula especializada.",
+      "c) Escolarización combinada: centro ordinario como referente y centro de educación especial.",
+      "d) Escolarización en centro específico de educación especial o aula abierta especializada."
+    ],
+    "correct": 0
+  }
+         ];
+
+        const form = document.getElementById('quizForm');
+
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+
+            const label = document.createElement('label');
+            label.textContent = q.question;
+            questionDiv.appendChild(label);
+
+            const optionsList = document.createElement('ul');
+            optionsList.classList.add('options');
+
+            q.options.forEach((option, i) => {
+                const optionItem = document.createElement('li');
+                optionItem.classList.add('option');
+
+                const radio = document.createElement('input');
+                optionItem.addEventListener('click', () => radio.click());
+                radio.type = 'radio';
+                radio.name = `question${index}`;
+                radio.value = i;
+                radio.addEventListener('change', () => {
+                    if (i === q.correct) {
+                        optionItem.classList.add('correct');
+                        optionItem.classList.remove('incorrect');
+                    } else {
+                        optionItem.classList.add('incorrect');
+                        optionItem.classList.remove('correct');
+                    }
+                });
+
+                optionItem.appendChild(radio);
+                optionItem.appendChild(document.createTextNode(option));
+                optionsList.appendChild(optionItem);
+            });
+
+            questionDiv.appendChild(optionsList);
+            form.appendChild(questionDiv);
+        });
+    </script>
+</body>
+</html>
