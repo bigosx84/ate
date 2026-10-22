@@ -1,0 +1,343 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Preguntas</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7fc;
+            display: flex; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eef3ff;
+            border-left: 5px solid #4a90e2;
+        }
+        .question label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            font-size: 17px; font-weight: normal;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid #d1d8e0;
+            margin-bottom: 8px;
+            transition: background-color 0.3s;
+            width: calc(100% - 20px); max-width: 100%;
+        }
+        .option:hover {
+            background-color: #d9e8ff;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            border-color: #4caf50;
+            font-weight: bold;
+        }
+        .incorrect {
+            background-color: #ffcdd2 !important;
+            border-color: #e53935;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="quizForm"></form>
+    </div>
+    
+    <script>
+        const questions = [
+  {
+    "question": "1. ¿Qué ley regula la Promoción de la Autonomía personal y Atención a las personas en situación de dependencia?",
+    "options": [
+      "a) La Ley 50/2012, de 20 de diciembre.",
+      "b) La Ley 39/2006, de 14 de diciembre.",
+      "c) La Ley 25/2010, de 7 de diciembre.",
+      "d) La Ley 31/2002, de 2 de diciembre."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "2. La capacidad de movimiento y acción tanto en habilidades propias de la vida cotidiana como específicas o aprendidas constituye la autonomía:",
+    "options": [
+      "a) Física.",
+      "b) Social.",
+      "c) Afectiva.",
+      "d) Intelectual."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "3. Una conducta que se realiza de forma continua sin que exista un control externo (premios o castigos) se denomina:",
+    "options": [
+      "a) Habilidad.",
+      "b) Rutina.",
+      "c) Hábito.",
+      "d) Actitud."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "4. Las capacidades físicas, cognitivas o motrices que la persona necesita para realizar una conducta con éxito se denominan:",
+    "options": [
+      "a) Habilidades.",
+      "b) Rutinas.",
+      "c) Hábitos.",
+      "d) Actitudes."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "5. La principal forma de adquisición de los hábitos es:",
+    "options": [
+      "a) La imitación.",
+      "b) El desarrollo madurativo.",
+      "c) La descripción verbal de los pasos a seguir.",
+      "d) El refuerzo combinado con el castigo cuando sea necesario."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "6. Como consejo metodológico a la hora de desarrollar hábitos en el alumno debemos tener en cuenta:",
+    "options": [
+      "a) Partir de la capacidad y habilidades que tiene el niño.",
+      "b) El modelado será más efectivo cuanto menor sea la conexión afectiva entre el niño y el adulto.",
+      "c) El adulto debe mostrarse autoritario para un mejor aprendizaje de hábitos.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "7. Se considera que un individuo es dependiente cuando presenta una discapacidad severa o total para alguna de:",
+    "options": [
+      "a) Las habilidades instrumentales de la vida diaria.",
+      "b) Las habilidades básicas de la vida diaria.",
+      "c) Debe presentar discapacidad en ambos tipos de habilidades.",
+      "d) Las habilidades instrumentales de la vida diaria o habilidades básicas de la vida diaria, indistintamente."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "8. Una persona que necesita ayuda para realizar varias actividades básicas de la vida diaria, al menos una vez al día o tiene necesidades de apoyo intermitente o limitado para su autonomía personal presenta una dependencia:",
+    "options": [
+      "a) No presenta dependencia.",
+      "b) Moderada.",
+      "c) Severa.",
+      "d) Gran dependencia."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "9. Una persona que requiere ayuda para realizar varias actividades básicas de la vida diaria dos o tres veces al día, pero no necesita la presencia permanente de un cuidador o tiene necesidades de apoyo extenso para su autonomía personal tiene un grado de dependencia:",
+    "options": [
+      "a) Según los parámetros especificados en la legislación vigente no se considera dependencia.",
+      "b) Grado I. Dependencia moderada.",
+      "c) Grado II. Dependencia severa.",
+      "d) Grado III. Gran dependencia."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "10. Los principales programas de autonomía personal que se llevan a cabo en el ámbito de la educación especial se refieren a:",
+    "options": [
+      "a) Los hábitos de higiene y autocuidado.",
+      "b) La alimentación.",
+      "c) Las habilidades para la interacción social y los desplazamientos.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "11. Uno de los principales aspectos a tener en cuenta en la realización y aplicación de un programa de habilidades de autonomía personal es:",
+    "options": [
+      "a) Debemos partir de las capacidades que tiene el alumno.",
+      "b) El programa debe reflejar el objetivo que pretendemos conseguir, cuanto más llamativos o interesantes mejor serán los objetivos, aunque pensemos de antemano que no se van a conseguir.",
+      "c) A la hora de programar las actividades y aprendizajes debe primar como objetivo principal que el educador debe realizar por el niño todas aquellas actividades que le supongan una dificultad, por pequeña que esta sea.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "12. Si la escuela aborda el descanso y el sueño en su tiempo escolar, debería tenerse en cuenta lo siguiente:",
+    "options": [
+      "a) El ambiente debe ser tranquilo y relajado.",
+      "b) Evitar la soledad antes de dormir y al despertarse.",
+      "c) Establecer situaciones rutinarias: hora y duración.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "13. Para el baño del niño con discapacidad se ha de tener en cuenta:",
+    "options": [
+      "a) No utilizar nunca actividades de juego (que meta en el baño juguetes), como medio favorecedor para que el niño se acostumbre a bañarse, ya que prolonga la actividad innecesariamente y además desvía la atención, con lo que el niño no va a adquirir la autonomía necesaria.",
+      "b) Es conveniente dejar al niño solo, durante al menos 15 minutos durante el baño, para que vaya logrando autonomía.",
+      "c) Desarrollar el hábito de aseo personal como una necesidad y no como una imposición que le haga coger fobia al baño.",
+      "d) Todas son correctas."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "14. Con relación a los hábitos de limpieza del alumno con discapacidad, es cierta la siguiente afirmación:",
+    "options": [
+      "a) Durante el lavado de manos y cara, debemos contar con un espejo delante del niño para que pueda verse la cara cuando esté lavándose.",
+      "b) La limpieza de oídos debe hacerse durante el baño y se secará con una toalla suave.",
+      "c) El aprendizaje de la técnica para cortarse las uñas será bastante tardío.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "15. Para vestir al niño con algún tipo de parálisis cerebral debemos tener en cuenta:",
+    "options": [
+      "a) La mayoría de ropa que se encuentra en el mercado son apropiadas para niños con discapacidad motora, pero debemos tener en cuenta que las mangas deben ser amplias y que las prendas utilizadas no sean demasiado ajustadas.",
+      "b) Es conveniente empezar a vestirlo por el brazo o la pierna menos afectados.",
+      "c) Para ponerle calcetines o zapatos debemos procurar que el niño tenga las piernas totalmente estiradas.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "16. La enuresis es:",
+    "options": [
+      "a) La falta de control sobre la defecación.",
+      "b) La falta de control sobre la orina.",
+      "c) La dificultad para conciliar el sueño durante la noche, lo que provoca una excesiva somnolencia diurna.",
+      "d) Lo que comúnmente conocemos como \"sueño cambiado\", es decir, el niño duerme durante el día, pero permanece despierto durante la noche."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "17. Para la creación de unos hábitos alimenticios adecuados debemos tener en cuenta:",
+    "options": [
+      "a) Se le cogerá la mano para ayudarles a cargar los cubiertos y llevárselos a la boca. Después le cogeremos por la muñeca y, finalmente, por el codo. Se repetirá esta operación tantas veces como sea necesario, hasta que coja el hábito.",
+      "b) Para enseñar a usar el cuchillo se comenzará con alimentos blandos, fáciles de partir.",
+      "c) En un principio, los vasos deben tener asas para poder cogerlos mejor.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "18. Para iniciar al niño en el uso del cuchillo, el Auxiliar Técnico Educativo:",
+    "options": [
+      "a) Se colocará por delante del niño.",
+      "b) Se coloca detrás del niño, y le coge las manos, indicándole verbalmente lo que tiene que ir haciendo. Después le cogerá por las muñecas y, finalmente, por los codos.",
+      "c) Pondrá al niño lo más cómodo posible, en general recostado.",
+      "d) Deberá usar refuerzos."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "19. El aprendizaje para el uso de las bebidas se caracteriza por:",
+    "options": [
+      "a) Uso de vasos con agarraderas.",
+      "b) El vaso debe estar lleno hasta arriba de agua.",
+      "c) El Auxiliar Técnico Educativo guiará al niño situándose delante de él.",
+      "d) Todas las respuestas anteriores son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "20. En la creación de hábitos para vestirse debemos tener en cuenta que:",
+    "options": [
+      "a) Iremos de lo más fácil a lo más difícil.",
+      "b) La ropa debe abrirse por la parte trasera.",
+      "c) Es preferible usar calzado muy ajustado para que no se salga al andar.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "21. A la hora de vestir a un niño con parálisis cerebral debemos tener en cuenta:",
+    "options": [
+      "a) La mayoría de ropa que se encuentra en el mercado no son apropiadas para niños con discapacidad motora.",
+      "b) En los primeros meses no existen diferencias considerables, pero a partir de los 8 o 9 meses, las características del bebé con parálisis cerebral (rigidez, espasmos musculares o movimientos incontrolados), hacen que la tarea de vestirlo resulte más compleja.",
+      "c) Es conveniente empezar a vestirlo por el brazo o la pierna menos afectados.",
+      "d) Para ponerle calcetines o zapatos debemos procurar que el niño no tenga las piernas dobladas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "22. La encopresis es:",
+    "options": [
+      "a) Una forma de enuresis.",
+      "b) El estreñimiento propio de los alumnos con discapacidad.",
+      "c) La presencia de hemorragias nasales.",
+      "d) La incontinencia fecal."
+    ],
+    "correct": 3
+  }
+         ];
+
+        const form = document.getElementById('quizForm');
+
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+
+            const label = document.createElement('label');
+            label.textContent = q.question;
+            questionDiv.appendChild(label);
+
+            const optionsList = document.createElement('ul');
+            optionsList.classList.add('options');
+
+            q.options.forEach((option, i) => {
+                const optionItem = document.createElement('li');
+                optionItem.classList.add('option');
+
+                const radio = document.createElement('input');
+                optionItem.addEventListener('click', () => radio.click());
+                radio.type = 'radio';
+                radio.name = `question${index}`;
+                radio.value = i;
+                radio.addEventListener('change', () => {
+                    if (i === q.correct) {
+                        optionItem.classList.add('correct');
+                        optionItem.classList.remove('incorrect');
+                    } else {
+                        optionItem.classList.add('incorrect');
+                        optionItem.classList.remove('correct');
+                    }
+                });
+
+                optionItem.appendChild(radio);
+                optionItem.appendChild(document.createTextNode(option));
+                optionsList.appendChild(optionItem);
+            });
+
+            questionDiv.appendChild(optionsList);
+            form.appendChild(questionDiv);
+        });
+    </script>
+</body>
+</html>

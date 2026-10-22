@@ -1,0 +1,463 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Preguntas</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7fc;
+            display: flex; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eef3ff;
+            border-left: 5px solid #4a90e2;
+        }
+        .question label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            font-size: 17px; font-weight: normal;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid #d1d8e0;
+            margin-bottom: 8px;
+            transition: background-color 0.3s;
+            width: calc(100% - 20px); max-width: 100%;
+        }
+        .option:hover {
+            background-color: #d9e8ff;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            border-color: #4caf50;
+            font-weight: bold;
+        }
+        .incorrect {
+            background-color: #ffcdd2 !important;
+            border-color: #e53935;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="quizForm"></form>
+    </div>
+    
+    <script>
+        const questions = [
+  {
+    "question": "1. En 2021 se ha publicado la duodécima edición del manual \"Discapacidad intelectual: definición, diagnóstico, clasificación y sistemas de apoyo\". Según esta definición la discapacidad se origina antes de los:",
+    "options": [
+      "a) 16 años.",
+      "b) 18 años.",
+      "c) 20 años.",
+      "d) 22 años."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "2. El Manual Diagnóstico y Estadístico de los Trastornos Mentales DSM-5 de la APA en su 5.ª edición (2015) define la discapacidad intelectual (trastorno del desarrollo intelectual) dentro de los:",
+    "options": [
+      "a) Trastornos del desarrollo.",
+      "b) Trastornos motores.",
+      "c) Trastornos somáticos.",
+      "d) Trastornos del neurodesarrollo."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "3. Respecto a la etiología del TDI (trastorno del desarrollo intelectual), generalmente se consideran dos grandes grupos de factores etiológicos:",
+    "options": [
+      "a) Factores orgánicos y somáticos.",
+      "b) Factores orgánicos y ambientales.",
+      "c) Factores ambientales y sociales.",
+      "d) Factores sociales y psíquicos."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "4. Siguiendo la CIE-11 (Clasificación Internacional de Enfermedades de la OMS), los diferentes tipos de discapacidad son:",
+    "options": [
+      "a) Leve, grave y profundo.",
+      "b) Leve, moderado, grave y profundo.",
+      "c) Moderado, agudo y profundo.",
+      "d) Ligero, medio, severo y profundo."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "5. La definición de \"retraso mental\" que da la AAIDD en 1992 supuso un cambio de paradigma. Este nuevo paradigma se basaba en:",
+    "options": [
+      "a) El cociente intelectual o CI.",
+      "b) Los apoyos.",
+      "c) El sistema de clasificación de la Organización Mundial de la Salud.",
+      "d) El déficit intelectual."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "6. La AAIDD actualmente define la discapacidad intelectual como una discapacidad que se caracteriza por:",
+    "options": [
+      "a) Limitaciones en el funcionamiento intelectual y en la conducta adaptativa.",
+      "b) Rendimiento académico por debajo de la media.",
+      "c) Originarse antes de los 18 años.",
+      "d) a) y c) son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "7. El sistema de clasificación de la discapacidad intelectual según la AAIDD se basa en:",
+    "options": [
+      "a) El contexto social.",
+      "b) El nivel de adaptación.",
+      "c) La intensidad de los apoyos necesarios.",
+      "d) El CI (Ligero, moderado, grave y profundo)."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "8. Siguiendo un criterio cuantitativo podemos considerar que una persona tiene discapacidad intelectual si su CI está por debajo de:",
+    "options": [
+      "a) 50.",
+      "b) 60.",
+      "c) 70.",
+      "d) 80."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "9. Los principales criterios de diagnóstico de discapacidad intelectual son:",
+    "options": [
+      "a) Capacidad intelectual, capacidad comunicativa y habilidades funcionales.",
+      "b) Adaptación social, CI y niveles de interacción.",
+      "c) Salud física, salud mental y etiología.",
+      "d) Capacidad intelectual, conducta adaptativa y edad de comienzo."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "10. La persona con discapacidad intelectual leve:",
+    "options": [
+      "a) No es capaz de realizar actividades mentales muy complejas.",
+      "b) Aunque adquiere el lenguaje no es capaz de alcanzar la capacidad para mantener una conversación.",
+      "c) Necesita ayuda y supervisión constante.",
+      "d) a) y b) son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "11. Siguiendo a Luckasson y colaboradores se distinguen cuatro tipos de apoyos:",
+    "options": [
+      "a) Limitados, poco extensos, generalizados, intermitentes.",
+      "b) Intermitente, ilimitados, extensos, generalizados.",
+      "c) Intermitente, limitados, extensos, generalizados.",
+      "d) Intermitente, limitados, extensos, individuales."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "12. Señala la respuesta incorrecta. En el ámbito socioafectivo, las necesidades educativas especiales de las personas con discapacidad intelectual que pueden aparecer son:",
+    "options": [
+      "a) Necesidad de asegurar su autonomía personal.",
+      "b) Necesidad de asegurar su identidad y su autoestima.",
+      "c) Necesidad de proporcionarle un ambiente cálido y afectivo.",
+      "d) Necesidad de desarrollar conductas y destrezas motrices."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "13. Señala la respuesta incorrecta. Las características generales en cuanto a los procesos cognitivos y de aprendizaje, en los TDI son las siguientes:",
+    "options": [
+      "a) Bajo nivel de atención.",
+      "b) Necesidad de conseguir estabilidad personal.",
+      "c) Dificultades de percepción y discriminación de aspectos relevantes.",
+      "d) Dificultades de simbolización y abstracción."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "14. Señala la respuesta incorrecta. Entre las habilidades adaptativas básicas de los TDI están:",
+    "options": [
+      "a) Comunicación.",
+      "b) Cuidado personal.",
+      "c) Habilidades sociales.",
+      "d) Concentración."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "15. Los alumnos con discapacidad intelectual cuyo desarrollo motor se caracteriza porque presentan cierta debilidad motora y andan con cierta torpeza, presentan:",
+    "options": [
+      "a) Discapacidad intelectual leve.",
+      "b) Discapacidad intelectual moderada.",
+      "c) Discapacidad intelectual grave.",
+      "d) Discapacidad intelectual profunda."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "16. Autoconcepto se refiere a:",
+    "options": [
+      "a) La actitud que la persona adopta hacia sí misma.",
+      "b) La actitud que la persona adopta hacia los demás.",
+      "c) No es ninguna actitud.",
+      "d) Es una aptitud."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "17. Autocontrol se refiere a la capacidad de la persona para:",
+    "options": [
+      "a) No controlar nada.",
+      "b) Regular la propia conducta.",
+      "c) Regular la conducta de los demás.",
+      "d) No regular su propia conducta."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "18. Señala la respuesta incorrecta. A nivel social en el TDI debemos destacar:",
+    "options": [
+      "a) Tienen escaso repertorio en habilidades sociales.",
+      "b) Les cuesta mucho ajustar y autorregular el propio comportamiento.",
+      "c) En situaciones no controladas, puede darse inadaptación o conductas disruptivas.",
+      "d) Problemas para aprender y planificar."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "19. La necesidad de asegurar identidad y autoestima en los TDI se refiere a:",
+    "options": [
+      "a) Necesidad del ámbito motor.",
+      "b) Necesidad del ámbito socioafectivo.",
+      "c) Necesidad del ámbito comunicativo.",
+      "d) Necesidad del ámbito cognitivo."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "20. Siguiendo a Luckasson y colaboradores, la intensidad de apoyos caracterizada por su consistencia a lo largo del tiempo, se ofrecen por un tiempo limitado pero sin naturaleza intermitente, son:",
+    "options": [
+      "a) Apoyos limitados.",
+      "b) Apoyos extensos.",
+      "c) Apoyos intermitentes.",
+      "d) Apoyos generalizados."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "21. Cuando la conducta adaptativa está muy afectada en todas las áreas del desarrollo, pero es posible el aprendizaje de habilidades elementales de cuidado personal, nos referimos a:",
+    "options": [
+      "a) Discapacidad intelectual leve.",
+      "b) Discapacidad intelectual grave.",
+      "c) Discapacidad intelectual moderada.",
+      "d) Discapacidad intelectual profunda."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "22. Señala la afirmación correcta sobre el hábito de vestirse y desvestirse en los alumnos con discapacidad intelectual:",
+    "options": [
+      "a) Los alumnos con discapacidad intelectual siempre desarrollan las habilidades de vestirse y desvestirse a la edad habitual del desarrollo, pues su principal dificultad no es a nivel motor ni de coordinación.",
+      "b) Los alumnos con discapacidad intelectual no siempre tienen las habilidades de vestirse y desvestirse a la edad habitual del desarrollo, por ello es necesario realizar estas actividades por ellos.",
+      "c) Los alumnos con discapacidad intelectual no siempre tienen las habilidades de vestirse y desvestirse a la edad habitual del desarrollo, por ello es necesario ayudarle a desarrollar dichas habilidades.",
+      "d) Los alumnos con discapacidad intelectual nunca alcanzarán el desarrollo de las habilidades necesarias para vestirse y desvestirse."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "23. ¿Qué situarías en primer lugar en la secuencia para adquirir el hábito de vestirse y desvestirse?",
+    "options": [
+      "a) Prendas de vestir con botones pequeños.",
+      "b) Prendas de vestir con botones grandes.",
+      "c) Prendas de vestir que incluyan cremalleras.",
+      "d) Zapatos con cordones."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "24. Se debe empezar con el entrenamiento del alumno con discapacidad intelectual en hábitos de higiene:",
+    "options": [
+      "a) Desde el nacimiento.",
+      "b) En la etapa de educación infantil.",
+      "c) En la etapa de educación primaria.",
+      "d) En el mismo momento que tenga la habilidad motora suficiente."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "25. Entre los hábitos de higiene necesarios está:",
+    "options": [
+      "a) Realizar por sí mismo/a el lavado del cuerpo.",
+      "b) Lavarse las manos antes de cada comida (almuerzo, comedor...).",
+      "c) Cepillarse los dientes después de cada comida.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "26. ¿Cómo podemos facilitar el lavado de dientes en niños con discapacidad intelectual e hipotonía?",
+    "options": [
+      "a) Utilizando solo el cepillo, sin pasta de dientes.",
+      "b) Utilizando un cepillo de dientes con mayor peso en el mango.",
+      "c) Utilizando cepillos de dientes eléctricos.",
+      "d) Dejando que sea el ATE el que lo haga."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "27. Señala la afirmación correcta:",
+    "options": [
+      "a) Para que el alumno con discapacidad intelectual adquiera autonomía, los ATE deberán realizar las distintas actividades de higiene en su lugar durante un tiempo prolongado.",
+      "b) La colocación de fotos frente al lavabo y al lado del cristal pueden ser una buena ayuda para recordar la secuencia de las acciones que hay que hacer.",
+      "c) Para enseñar el hábito de cortarse las uñas usaremos siempre unas tijeras pequeñas, nunca un cortaúñas.",
+      "d) Todas son correctas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "28. Señala lo correcto sobre los hábitos de alimentación:",
+    "options": [
+      "a) El niño con discapacidad intelectual adquiere los hábitos de alimentación mediante diferentes procesos que el resto de los niños, pero a una velocidad más lenta.",
+      "b) El niño con discapacidad intelectual puede adquirir los hábitos de alimentación siguiendo los mismos procesos que el resto de los niños, pero a una velocidad más lenta.",
+      "c) El niño con discapacidad intelectual puede adquirir los hábitos de alimentación siguiendo los mismos procesos que el resto de los niños, pero a una velocidad más rápida.",
+      "d) El niño con discapacidad intelectual no puede adquirir los hábitos de alimentación."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "29. ¿Cuándo es conveniente sentar al niño con discapacidad intelectual en la trona para comer y dejarlo experimentar?",
+    "options": [
+      "a) En el momento en que el niño pueda mantenerse sentado.",
+      "b) A los 12 meses.",
+      "c) A los dos años de edad.",
+      "d) No conviene sentarlo solo en la trona."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "30. ¿Hacia qué edad se puede comenzar el aprendizaje del uso del cuchillo con alimentos blandos?",
+    "options": [
+      "a) Hacia los 7 años.",
+      "b) Hacia los 10 años.",
+      "c) Hacia los 12 años.",
+      "d) Nunca. Las personas con discapacidad intelectual no deben utilizar este cubierto por el riesgo que entraña."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "31. Para favorecer unos buenos hábitos de alimentación es necesario:",
+    "options": [
+      "a) Hacer del acto de comer un acto placentero.",
+      "b) Utilizar la comida como premio y/o castigo.",
+      "c) Utilizar la televisión o juegos como medio para entretenerlo.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "32. Los hábitos o habilidades sociales se caracterizan porque:",
+    "options": [
+      "a) Son innatas y por tanto no se pueden enseñar.",
+      "b) Deben ser socialmente adaptadas.",
+      "c) No deben estar bajo el control de las personas.",
+      "d) Todas son correctas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "33. Una característica de las habilidades sociales es:",
+    "options": [
+      "a) La conducta social adecuada es independiente del contexto.",
+      "b) La habilidad social debe considerarse dentro de un marco cultural determinado.",
+      "c) Las habilidades sociales no varían. Se mantienen estables a lo largo del tiempo.",
+      "d) Todas son correctas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "34. Una de las técnicas utilizada para el desarrollo de las habilidades sociales consiste en descomponer la conducta en pequeños pasos e ir practicando y reforzando cada uno de ellos, prestando la ayuda que vaya precisando durante el proceso de aprendizaje. ¿De qué técnica se trata?",
+    "options": [
+      "a) Retroalimentación de la actuación o feedback.",
+      "b) Modelado.",
+      "c) Práctica de conducta.",
+      "d) Moldeamiento."
+    ],
+    "correct": 3
+  }
+         ];
+
+        const form = document.getElementById('quizForm');
+
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+
+            const label = document.createElement('label');
+            label.textContent = q.question;
+            questionDiv.appendChild(label);
+
+            const optionsList = document.createElement('ul');
+            optionsList.classList.add('options');
+
+            q.options.forEach((option, i) => {
+                const optionItem = document.createElement('li');
+                optionItem.classList.add('option');
+
+                const radio = document.createElement('input');
+                optionItem.addEventListener('click', () => radio.click());
+                radio.type = 'radio';
+                radio.name = `question${index}`;
+                radio.value = i;
+                radio.addEventListener('change', () => {
+                    if (i === q.correct) {
+                        optionItem.classList.add('correct');
+                        optionItem.classList.remove('incorrect');
+                    } else {
+                        optionItem.classList.add('incorrect');
+                        optionItem.classList.remove('correct');
+                    }
+                });
+
+                optionItem.appendChild(radio);
+                optionItem.appendChild(document.createTextNode(option));
+                optionsList.appendChild(optionItem);
+            });
+
+            questionDiv.appendChild(optionsList);
+            form.appendChild(questionDiv);
+        });
+    </script>
+</body>
+</html>

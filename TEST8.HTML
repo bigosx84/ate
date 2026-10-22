@@ -1,0 +1,523 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Preguntas</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7fc;
+            display: flex; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eef3ff;
+            border-left: 5px solid #4a90e2;
+        }
+        .question label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            font-size: 17px; font-weight: normal;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid #d1d8e0;
+            margin-bottom: 8px;
+            transition: background-color 0.3s;
+            width: calc(100% - 20px); max-width: 100%;
+        }
+        .option:hover {
+            background-color: #d9e8ff;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            border-color: #4caf50;
+            font-weight: bold;
+        }
+        .incorrect {
+            background-color: #ffcdd2 !important;
+            border-color: #e53935;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="quizForm"></form>
+    </div>
+    
+    <script>
+        const questions = [
+  {
+    "question": "1. La capacidad de nuestro sistema visual para distinguir detalles de forma nítida a una distancia y condiciones determinadas se denomina:",
+    "options": [
+      "a) Campo visual.",
+      "b) Agudeza visual.",
+      "c) Dioptría.",
+      "d) Capacidad de visión."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "2. En España es considerada legalmente ciega aquella persona cuya agudeza visual es:",
+    "options": [
+      "a) Menor o igual al 15 % (0,15 en la escala de Wecker), obtenida con la mejor corrección óptica y/o un campo visual menor o igual a 20 grados en el mejor de sus ojos.",
+      "b) Menor o igual al 10 % (0,1 en la escala de Wecker), obtenida con la mejor corrección óptica y/o un campo visual menor o igual a 10 grados en el mejor de sus ojos.",
+      "c) Menor o igual al 10 % (0,1 en la escala de Wecker), obtenida con la mejor corrección óptica y/o un campo visual mayor o igual a 15 grados en el mejor de sus ojos.",
+      "d) Menor o igual al 15 % (0,1 en la escala de Wecker), obtenida con la mejor corrección óptica y/o un campo visual menor o igual a 15 grados en el mejor de sus ojos."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "3. Se considera que un paciente tiene baja visión cuando tras la mejor corrección óptica, su agudeza visual es:",
+    "options": [
+      "a) Menor de 0,2 en el mejor de los ojos, o un campo visual inferior a 20 grados.",
+      "b) Menor de 0,3 en el mejor de los ojos, o un campo visual inferior a 20 grados.",
+      "c) Menor de 0,4 en el mejor de los ojos, o un campo visual inferior a 25 grados.",
+      "d) Menor de 0,3 en el mejor de los ojos, o un campo visual inferior a 25 grados."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "4. La unidad de medida de graduación de los ojos se denomina:",
+    "options": [
+      "a) Campo visual.",
+      "b) Agudeza visual.",
+      "c) Dioptría.",
+      "d) Diplopía."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "5. La pérdida de la transparencia del cristalino, total o parcial, que causa pérdida de agudeza visual se denomina:",
+    "options": [
+      "a) Acromatopsia.",
+      "b) Catarata.",
+      "c) Estrabismo.",
+      "d) Glaucoma."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "6. El nistagmus es:",
+    "options": [
+      "a) Una oscilación rítmica e involuntaria de uno o ambos ojos que puede presentarse a cualquier edad.",
+      "b) Un error del enfoque visual que generalmente se manifiesta con una visión borrosa e incómoda de cerca, aunque, a partir de cierta edad, también se ven mal los objetos lejanos.",
+      "c) Un defecto de refracción del ojo en el que las imágenes quedan enfocadas delante de la retina.",
+      "d) La excesiva sensibilidad anormal frente a la luz."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "7. Entre las necesidades educativas de los alumnos con ceguera encontramos:",
+    "options": [
+      "a) Necesidad de relacionarse con el mundo físico y social a través de otros sentidos distintos a la visión.",
+      "b) Necesidad de aprender técnicas para orientarse y desplazarse en el espacio.",
+      "c) Necesidad de adquirir hábitos de autonomía personal.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "8. La ONCE ofrece una serie de recomendaciones para ayudar en sus desplazamientos a la persona con discapacidad visual. Entre estas recomendaciones encontramos:",
+    "options": [
+      "a) La persona con discapacidad visual irá medio paso por delante del guía.",
+      "b) El guía debe colocarse habitualmente en el lado en el que la persona lleva el bastón.",
+      "c) El paso de los dos debe ser coordinado, adecuado a su velocidad y a las características del medio por el que se desplazan.",
+      "d) Todas son correctas."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "9. Para subir y bajar escaleras como guía de una persona con discapacidad visual debemos tener en cuenta:",
+    "options": [
+      "a) El guía deberá aproximarse siempre al borde de la escalera en perpendicular, se parará brevemente e indicará si es subida o bajada antes del inicio.",
+      "b) El guía siempre irá un escalón por detrás.",
+      "c) En escaleras mecánicas es preferible no colocar la mano sobre el pasamanos.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "10. El sistema alternativo de lectoescritura para las personas ciegas se denomina:",
+    "options": [
+      "a) Lengua de signos.",
+      "b) Braille.",
+      "c) Palabra complementada.",
+      "d) Sistema Lingüístico de la ONCE (SLO)."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "11. La ONCE ofrece una serie de recomendaciones para la interacción social con las personas con discapacidad visual. Una de ellas es:",
+    "options": [
+      "a) Hablar dirigiendo nuestra mirada a su cara.",
+      "b) Utilizar el nombre de la persona, si se conoce, para que tenga claro que nos dirigimos a él.",
+      "c) Indicarle si hay otra u otras personas presentes.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "12. La enseñanza de los niños con discapacidad visual en la etapa preescolar recae en:",
+    "options": [
+      "a) La ONCE.",
+      "b) El Ministerio de Educación.",
+      "c) Los padres, asesorados por personal especializado.",
+      "d) No requieren medidas educativas especiales a esta edad."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "13. Los CRE son:",
+    "options": [
+      "a) Grupos representativos del personal educativo.",
+      "b) Centros de recursos educativos que hacen apoyo a la enseñanza del invidente.",
+      "c) Las siglas de Ciegos Reunidos de España.",
+      "d) Un organismo dependiente del Ministerio de Educación."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "14. Respecto a las adaptaciones físicas del centro, para la educación del niño con discapacidad visual, ¿cuáles son correctas?",
+    "options": [
+      "a) Las puertas deben estar entreabiertas.",
+      "b) El aula dispondrá sólo de luz artificial.",
+      "c) El color de las paredes y suelos debe ser el mismo.",
+      "d) Las ventanas deben ser correderas o de guillotina."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "15. Según el Convenio de Colaboración entre la Consejería de Educación y Empleo de la Junta de Extremadura y la Organización Nacional de Ciegos Españoles en materia de atención educativa a alumnos necesidades específicas de apoyo educativo asociadas a discapacidad visual, ¿cuál de los siguientes recursos humanos será aportado por la ONCE?",
+    "options": [
+      "a) Profesores de Pedagogía Terapéutica.",
+      "b) Profesores de Audición y Lenguaje.",
+      "c) Maestros para los Equipos específicos de Atención a Personas con discapacidad visual.",
+      "d) Equipos de Orientación Educativa y Psicopedagógica Generales, específicos y de Atención Temprana."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "16. Según el Convenio de Colaboración entre la Consejería de Educación y Empleo de la Junta de Extremadura y la Organización Nacional de Ciegos Españoles se fijará un protocolo de intervención conjunta que asegure el trabajo multidisciplinar y coordinado de los distintos profesionales de una y otra institución, en el que se recojan los procesos de detección, derivación, intervención de los profesionales, evaluación y seguimiento. Este protocolo se actualizará:",
+    "options": [
+      "a) Cada curso escolar.",
+      "b) Cada dos años.",
+      "c) Cada tres años.",
+      "d) Cada cuatro años."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "17. Entre las orientaciones metodológicas para la atención educativa al alumnado con discapacidad visual podemos citar:",
+    "options": [
+      "a) Debemos partir de lo concreto y particular, hasta llegar a lo global y general.",
+      "b) El alumno/a con ceguera necesita ir explorando por partes los objetos hasta descubrirlos o conocerlos. Este carácter analítico de la exploración táctil implica, por tanto, un aprendizaje más lento.",
+      "c) El alumnado con discapacidad visual recibe poca información de su entorno. Debemos seleccionarles, en la medida de lo posible, \"actividades tipo\" que resulten representativas del repertorio básico a adquirir.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "18. La discapacidad auditiva por la que el individuo no percibe ningún sonido y supone una pérdida total de audición, se denomina:",
+    "options": [
+      "a) Hipoacusia.",
+      "b) Anacusia o cofosis.",
+      "c) Disacusia.",
+      "d) Dependencia auditiva."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "19. Una persona con una pérdida auditiva de 43 dB tendría:",
+    "options": [
+      "a) Hipoacusia leve o ligera.",
+      "b) Hipoacusia media o moderada.",
+      "c) Hipoacusia severa.",
+      "d) Hipoacusia profunda."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "20. ¿Qué parte del sistema auditivo puede estar afectada en la hipoacusia de transmisión?",
+    "options": [
+      "a) Oído externo.",
+      "b) Oído interno.",
+      "c) Oído medio.",
+      "d) Las respuestas a) y c) son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "21. La perforación timpánica causa:",
+    "options": [
+      "a) Hipoacusia de transmisión.",
+      "b) Hipoacusia de percepción.",
+      "c) Sordera mixta.",
+      "d) Cualquiera de las anteriores."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "22. La otosclerosis:",
+    "options": [
+      "a) Causa hipoacusia de transmisión.",
+      "b) Aparece en fase poslocutiva.",
+      "c) Cursa con osificación excesiva del estribo.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "23. La prueba ideal para estudiar la capacidad auditiva es:",
+    "options": [
+      "a) La exploración del tímpano.",
+      "b) El escáner craneal.",
+      "c) La audiometría.",
+      "d) El test del ruido."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "24. En la hipoacusia de percepción, la audiometría:",
+    "options": [
+      "a) Son anormales la conducción ósea y aérea.",
+      "b) Son normales ambas conducciones.",
+      "c) Es normal solo la conducción ósea.",
+      "d) Es normal solo la conducción aérea."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "25. El diagnóstico precoz de la discapacidad auditiva permite:",
+    "options": [
+      "a) Asegurar mayor eficacia en el tratamiento.",
+      "b) Prevenir los problemas derivados de la falta de audición.",
+      "c) Paliar la influencia negativa en el desarrollo del niño/a tales como: dificultades en el desarrollo lingüístico, problemas de relación, retraso escolar, etc.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "26. Los audífonos:",
+    "options": [
+      "a) Sirven para amplificar la intensidad de los sonidos.",
+      "b) Se componen de micrófono, amplificador y altavoz.",
+      "c) Pueden transmitir el sonido por vía ósea y aérea.",
+      "d) Todas son correctas."
+    ],
+    "correct": 3
+  },
+  {
+    "question": "27. El implante coclear:",
+    "options": [
+      "a) Es un tipo de audífono interno.",
+      "b) Se usa cuando está dañado el nervio auditivo.",
+      "c) Transforma sonidos en descargas eléctricas.",
+      "d) Todas son correctas."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "28. Una de las necesidades a nivel de centro que plantean los alumnos con discapacidad auditiva es:",
+    "options": [
+      "a) Necesidad de espacios con recursos adicionales para reducir las barreras comunicativas: avisos luminosos, FM, bucles magnéticos, señalizaciones, megafonías de calidad, teléfonos de textos, videoporteros, etc.",
+      "b) Necesidad de sistemas aumentativos y alternativos de comunicación y de estrategias comunicativas de apoyo al lenguaje oral.",
+      "c) Necesidad de ayudas visuales: avisos luminosos, claves visuales, etiquetados, etc.",
+      "d) Necesidad de acceder a la comprensión y expresión escrita, como medio de información y aprendizaje autónomo."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "29. Una de las necesidades a nivel de aula que plantean los alumnos con discapacidad auditiva es:",
+    "options": [
+      "a) Necesidad de proyectos educativos y curriculares que contemplen las necesidades educativas especiales del alumnado con discapacidad auditiva o sordera.",
+      "b) Necesidad de información, sensibilización y compromiso activo de la comunidad educativa.",
+      "c) Necesidad de materiales didácticos adecuados para potenciar el trabajo del lenguaje oral y de aplicaciones informáticas.",
+      "d) Necesidad de adquirir tempranamente un código de comunicación (oral o signado) que le permita desarrollar su capacidad comunicativa y cognitiva así como su socialización familiar y escolar."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "30. La lengua de signos:",
+    "options": [
+      "a) Es un sistema de comunicación.",
+      "b) Es una lengua natural de carácter visual, gestual y espacial con gramática propia.",
+      "c) Es universal. No existen diferentes lenguas de signos.",
+      "d) Es la lengua utilizada por personas con discapacidad intelectual."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "31. ¿Qué organismo trabaja por la normalización de la lengua de signos española, actuando como centro asesor y de referencia que vela por su buen uso y contribuye a garantizar los derechos lingüísticos de las personas signantes?",
+    "options": [
+      "a) Centro de Normalización Lingüística de la Lengua de Signos Española (CNLSE).",
+      "b) Asociación Española de Personas Signantes (AEPS).",
+      "c) Confederación Estatal de Personas Sordas (CNSE).",
+      "d) Confederación Española de Familias de Personas Sordas (FIAPAS)."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "32. El derecho al uso de la Lengua de Signos se encuentra regulado en España a través de:",
+    "options": [
+      "a) La Ley 40/2005 de 4 de diciembre.",
+      "b) La Ley 27/2007 de 23 de octubre.",
+      "c) La Ley 8/2010 de 26 de enero.",
+      "d) La Ley 15/2014 de 6 de junio."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "33. Según definición de la Ley por la que se reconocen las lenguas de signos españolas y se regulan los medios de apoyo a la comunicación oral de las personas sordas, con discapacidad auditiva y sordociegas, los profesionales especializados en sistemas alternativos y/o sistemas aumentativos de apoyo a la comunicación oral, que estimulan y facilitan el desarrollo de la misma, son:",
+    "options": [
+      "a) Intérprete de lengua de signos.",
+      "b) Guía-intérprete.",
+      "c) Logopeda y Maestro/a Especialista en audición y lenguaje.",
+      "d) Todas son correctas."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "34. La ley citada anteriormente se inspira en una serie de principios. Señala el incorrecto:",
+    "options": [
+      "a) Transversalidad de las políticas en materia de lengua de signos y medios de apoyo a la comunicación oral.",
+      "b) Libertad de elección.",
+      "c) Inclusión.",
+      "d) Normalización."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "35. Según el artículo 6 de la Ley citada en los ítems anteriores, de acuerdo con el principio de transversalidad de las políticas en materia de discapacidad, lo dispuesto en esta Ley se aplicará en las siguientes áreas excepto:",
+    "options": [
+      "a) Bienes y servicios a disposición del público.",
+      "b) Transportes.",
+      "c) Salas de cine.",
+      "d) Participación política."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "36. Señala la afirmación correcta sobre el Cued-Speech o palabra complementada:",
+    "options": [
+      "a) Fue elaborado por Borel-Maisonny, concebido originalmente para la reeducación de los trastornos de lecto-escritura.",
+      "b) Es un sistema de comunicación, que cuenta con un código manual que se desarrolla alrededor de la cara (posición de la mano, forma de la mano y movimiento de la mano).",
+      "c) Su uso sustituye al entrenamiento del aprendizaje de sonidos de la lengua y de la lengua de signos.",
+      "d) Todas son correctas."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "37. ¿Qué es el SUVAG (Sistema Universal de Audición de Guberina)?",
+    "options": [
+      "a) Un tipo de implante coclear.",
+      "b) Un tipo de audífono retroauricular.",
+      "c) Un equipo de amplificación diseñado por P. Guberina, para aplicación dentro del método Verbotonal de la educación de niños con deficiencias auditivas.",
+      "d) El organismo internacional que regula la lengua de signos."
+    ],
+    "correct": 2
+  },
+  {
+    "question": "38. ¿Qué sistema de comunicación consiste en ir deletreando todo lo que habla mediante figuras de la mano, acompañadas en ocasiones por movimientos que corresponden a la transcripción del alfabeto?",
+    "options": [
+      "a) Mímico.",
+      "b) Dactilógico.",
+      "c) Lengua de signos.",
+      "d) Cued-Speech."
+    ],
+    "correct": 1
+  },
+  {
+    "question": "39. La actividad de los Equipos Específicos de Atención a personas con discapacidad auditiva se regula en:",
+    "options": [
+      "a) Instrucción 26/2010 de 10 de septiembre.",
+      "b) Instrucción 12/2019 de 7 de julio.",
+      "c) Instrucción 21/2015 de 26 de enero.",
+      "d) Instrucción 17/2013 de 13 de mayo."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "40. Entre las funciones específicas de asesoramiento a los centros de los Equipos Específicos de Atención a personas con discapacidad auditiva encontramos:",
+    "options": [
+      "a) Colaborar con el intérprete de lengua de signos en la búsqueda de las estrategias comunicativas más convenientes y eficaces.",
+      "b) Intervenir con los escolares en su propia aceptación y adaptación a la sordera o discapacidad auditiva, ayudándoles en la formación de un autoconcepto apropiado.",
+      "c) Diseñar y participar en actividades de orientación familiar, escuela de padres, grupos de familias u otras actividades que se organicen en los centros educativos.",
+      "d) Todas son correctas."
+    ],
+    "correct": 0
+  }
+         ];
+
+        const form = document.getElementById('quizForm');
+
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+
+            const label = document.createElement('label');
+            label.textContent = q.question;
+            questionDiv.appendChild(label);
+
+            const optionsList = document.createElement('ul');
+            optionsList.classList.add('options');
+
+            q.options.forEach((option, i) => {
+                const optionItem = document.createElement('li');
+                optionItem.classList.add('option');
+
+                const radio = document.createElement('input');
+                optionItem.addEventListener('click', () => radio.click());
+                radio.type = 'radio';
+                radio.name = `question${index}`;
+                radio.value = i;
+                radio.addEventListener('change', () => {
+                    if (i === q.correct) {
+                        optionItem.classList.add('correct');
+                        optionItem.classList.remove('incorrect');
+                    } else {
+                        optionItem.classList.add('incorrect');
+                        optionItem.classList.remove('correct');
+                    }
+                });
+
+                optionItem.appendChild(radio);
+                optionItem.appendChild(document.createTextNode(option));
+                optionsList.appendChild(optionItem);
+            });
+
+            questionDiv.appendChild(optionsList);
+            form.appendChild(questionDiv);
+        });
+    </script>
+</body>
+</html>
